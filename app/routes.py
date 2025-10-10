@@ -5,4 +5,20 @@ from app import app
 @app.route('/index')
 def index():
     user = {'username': 'Whit Waltman'}
-    return render_template('index.html', title='codeblog', user=user)
+    posts = [
+        {
+            'title': 'Abstracting out operations w/ arrow functions',
+            'body': 'const randItems = arr => arr[Math.floor(Math.random() * arr.length)];',
+            'tags': ['javascript']
+        },
+        {
+            'title': 'Get directories that start with a lowercase letter',
+            'body': '''
+Most computers come with a few default directories created, e.g. Documents, Library, Music, etc. I like to use lowercase
+letters for the folders I create, like dotfiles or utils. If I want to list them and filter out any folders starting with a capital letter, I can use grep.
+ls -1 | grep "^[a-z]" works, but so does ls -1 | grep -v "[A-Z]", as long as your lowercase directories don't have any uppercase letters in their name at all.
+            ''',
+            'tags': ['grep', 'regex', 'filesystem']
+        }
+    ]
+    return render_template('index.html', title='codeblog', user=user, posts=posts)
