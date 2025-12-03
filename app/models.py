@@ -1,11 +1,17 @@
 from datetime import datetime, timezone
 from typing import Optional
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 import sqlalchemy as alc
 import sqlalchemy.orm as orm
 from app import db
+from app import login
 
-class User(db.Model):
+@login.user_loader
+def load_user(id):
+    return db.session.get(User, int(id))
+
+class User(UserMixin, db.Model):
     id: orm.Mapped[int] = orm.mapped_column(primary_key=True)
     username: orm.Mapped[str] = orm.mapped_column(alc.String(64), index=True, unique=True)
     email: orm.Mapped[str] = orm.mapped_column(alc.String(120), index=True, unique=True)
