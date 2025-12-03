@@ -1,5 +1,6 @@
 from flask import render_template
 from app import app
+from app.forms import LoginForm
 
 @app.route('/')
 @app.route('/index')
@@ -29,6 +30,20 @@ def index():
             what the name of my app is.
             ''',
             'tags': ['flask']
+        },
+        {
+            'title': 'Bulk undo with git',
+            'body': '''
+            Discard local changes in git (i.e. revert any modifications made to files in your working directory back to their state from your most recent commit):
+            <code>git restore file_name</code>. I just did <code>git restore app/__init__.py</code>. If you have a lot of stuff to undo, use <code>git restore .</code>, but beware that it discards all changes that git is tracking (both staged and unstaged!)
+            If you want to discard staged changes (i.e. unstage them), use <code>git reset HEAD</code>
+            ''',
+            'tags': ['git']
         }
     ]
     return render_template('index.html', title='codeblog', user=user, posts=posts)
+
+@app.route('/login')
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Sign In', form=form)
